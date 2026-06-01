@@ -1,0 +1,23 @@
+# PDFs
+*.pdf
+
+# Extraction and scraping scripts
+extract_*.py
+scrape_*.py
+
+# Notebooks
+*.ipynb
+
+# Debug/temp files
+debug_*.html
+website-body-inspect.html
+test_page.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db

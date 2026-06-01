@@ -8,24 +8,28 @@ def load_data():
         df_iit_2022 = pd.read_csv("data/ranks2022.csv")
         df_iit_2023 = pd.read_csv("data/ranks2023.csv")
         df_iit_2024 = pd.read_csv("data/ranks2024.csv")
-        
+        df_iit_2025 = pd.read_csv("data/ranks2025.csv")
+
         df_nit_2022 = pd.read_csv("data/nits2022.csv")
         df_nit_2023 = pd.read_csv("data/nits2023.csv")
         df_nit_2024 = pd.read_csv("data/nits2024.csv")
-        
+        df_nit_2025 = pd.read_csv("data/nits2025.csv")
+
         df_iiit_2022 = pd.read_csv("data/IIITs2022.csv")
         df_iiit_2023 = pd.read_csv("data/IIITs2023.csv")
         df_iiit_2024 = pd.read_csv("data/IIITs2024.csv")
-        
+        df_iiit_2025 = pd.read_csv("data/IIITs2025.csv")
+
         df_gfti_2022 = pd.read_csv("data/GFTIs2022.csv")
         df_gfti_2023 = pd.read_csv("data/GFTIs2023.csv")
         df_gfti_2024 = pd.read_csv("data/GFTIs2024.csv")
-        
+        df_gfti_2025 = pd.read_csv("data/GFTIs2025.csv")
+
         return {
-            'IIT': {2022: df_iit_2022, 2023: df_iit_2023, 2024: df_iit_2024},
-            'NIT': {2022: df_nit_2022, 2023: df_nit_2023, 2024: df_nit_2024},
-            'IIIT': {2022: df_iiit_2022, 2023: df_iiit_2023, 2024: df_iiit_2024},
-            'GFTI': {2022: df_gfti_2022, 2023: df_gfti_2023, 2024: df_gfti_2024}
+            'IIT':  {2022: df_iit_2022,  2023: df_iit_2023,  2024: df_iit_2024,  2025: df_iit_2025},
+            'NIT':  {2022: df_nit_2022,  2023: df_nit_2023,  2024: df_nit_2024,  2025: df_nit_2025},
+            'IIIT': {2022: df_iiit_2022, 2023: df_iiit_2023, 2024: df_iiit_2024, 2025: df_iiit_2025},
+            'GFTI': {2022: df_gfti_2022, 2023: df_gfti_2023, 2024: df_gfti_2024, 2025: df_gfti_2025},
         }
     except FileNotFoundError as e:
         st.error(f"CSV file not found: {e}")
@@ -66,25 +70,25 @@ for inst_type in data_dict:
     for year in data_dict[inst_type]:
         data_dict[inst_type][year] = clean_rank_data(data_dict[inst_type][year])
 
-st.markdown("<h1 style='text-align: center;'>🎓 JOSAA College & Branch Finder</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>JOSAA College & Branch Finder</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Find eligible colleges and programs across IITs, NITs, IIITs, and GFTIs based on your JEE rank, category, and gender.</p>", unsafe_allow_html=True)
 st.markdown("""<hr style="margin-top: 2em;">""", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Created by Musaib Bin Bashir.</p>", unsafe_allow_html=True)
 
 exam_type = st.selectbox("Select exam", ["JEE Advanced", "JEE Mains"])
 rank = st.number_input(f"Enter your {exam_type} rank (category rank, if applicable)", min_value=1, value=1000)
-year = st.selectbox("Select year", [2022, 2023, 2024])
+year = st.selectbox("Select year", [2025, 2024, 2023, 2022])
 
 if exam_type == "JEE Advanced":
     institute_type = "IITs"
-    st.info("🎯 JEE Advanced: Showing IIT programs only")
+    st.info("JEE Advanced: Showing IIT programs only")
 else:
     institute_type = st.selectbox("Select institute type", ["ALL", "NITs", "IIITs", "GFTIs"])
 
 category = st.selectbox("Select category", ["OPEN", "EWS", "OBC-NCL", "SC", "ST", "PwD"])
 gender = st.selectbox("Select gender", ["Gender-Neutral", "Female-only"])
 
-with st.expander("ℹ️ Help"):
+with st.expander("Help"):
     st.markdown("""
     - **OR** = Opening Rank  
     - **CR** = Closing Rank  
@@ -251,7 +255,7 @@ if st.button("Find Eligible Programs"):
             (df["Gender"].str.contains(gender, case=False, na=False))
         )
         
-        st.subheader("🎯 All Recommended Programs")
+        st.subheader("All Recommended Programs")
         st.caption("Note: Recommended Programs include those program which satisfy OR< your rank < CR")
         st.caption("Aspirational: CR from rank-300 to rank-1 | Fitting: OR ≤ rank ≤ CR | Opening Down: OR from rank+1 to rank+500")
         if category == "PwD":
@@ -269,7 +273,7 @@ if st.button("Find Eligible Programs"):
         display_table_with_sections(table1_df, rank, f"All Recommended {display_name} Programmes")
         
         st.markdown("---")
-        st.subheader("⚡ Circuital Programmes")
+        st.subheader("Circuital Programmes")
         st.caption("Computer Science, Electrical, Electronics, Artificial Intelligence, Data Science, Mathematics and Computing, Instrumentation and Computational Engineering programmes")
         st.caption("Aspirational: CR from rank-300 to rank-1 | Fitting: OR ≤ rank ≤ CR | Opening Down: All available OR > rank")
         if category == "PwD":
@@ -294,7 +298,7 @@ if st.button("Find Eligible Programs"):
 
         if exam_type == "JEE Advanced":
             st.markdown("---")
-            st.subheader("🏛️ Old 7 IITs Branches")
+            st.subheader("Old 7 IITs Branches")
             st.caption("Old IITs: Bombay, Delhi, Kharagpur, Madras, Kanpur, Roorkee, Guwahati")
             st.caption("Aspirational: OR from rank-300 to rank-1 | Fitting: OR ≤ rank ≤ CR | Opening Down: All available OR > rank")
             if category == "PwD":
